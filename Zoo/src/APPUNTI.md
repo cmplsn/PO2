@@ -51,3 +51,6 @@ Quando si parla di Threads in Java, la JVM non crea dei veri e propri thread ma 
 un thread da Java stiamo in realtà facendo una fork della jvm perchè non uso direttamente codice assembly ma uso java 
 bytecode quindi crasherebbe.
 
+## Consumer-Producer and Monitor
+In Java tutti i Reference-Type sono anche Monitor tramite i metodi wait() e notify() ( notifyAll() ) ereditate da Object.  
+anche mettendo wait() e notify() su buff non riesco a far funzionare Consumer Producer perchè ho bisogno del costrutto **synchronized**
