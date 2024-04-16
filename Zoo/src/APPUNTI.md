@@ -53,4 +53,9 @@ bytecode quindi crasherebbe.
 
 ## Consumer-Producer and Monitor
 In Java tutti i Reference-Type sono anche Monitor tramite i metodi wait() e notify() ( notifyAll() ) ereditate da Object.  
-anche mettendo wait() e notify() su buff non riesco a far funzionare Consumer Producer perchè ho bisogno del costrutto **synchronized**
+anche mettendo wait() e notify() su buff non riesco a far funzionare Consumer Producer perchè ho bisogno del costrutto 
+**synchronized**  
+Quando ci sono thread che devono cooperare su una medesima struttura dati come regola generale si potrebbe decidere di 
+utilizzare la struttura dati stessa come mutex quindi porre la sezione critica dentro ad uno scope 
+**synchronized(strutt.dati){---}**. La wait deve essere sempre dentro alla sezione critica quindi dentro allo scope 
+synchronized altrimenti otteniamo l'errore di *Illegal Monitor object is not owner*

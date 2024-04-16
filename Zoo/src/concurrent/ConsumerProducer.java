@@ -1,8 +1,6 @@
 package concurrent;
 
 
-import jdk.jfr.Percentage;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,7 +9,10 @@ import java.util.Random;
 // thread le consuma.
 public class ConsumerProducer {
 
-    public static  List<Integer> buff= new ArrayList<>();
+    public static  List<Integer> buff= new ArrayList<>();   //todo: metto buff statico simulando che sia una variabile
+                                                            // globale
+
+
 
     public static class Producer extends Thread {
         @Override
@@ -22,6 +23,12 @@ public class ConsumerProducer {
                 synchronized (buff) { //todo: con synchronized entro nel blocco synchronized e metto LOCK del mutex
                     buff.add(n);
                     buff.notify();
+
+                    //todo: potrei anche mettere print fuori da synchronized ma potrei incorrere in "scrambling"
+                    // dell'output. Printf non è sincronizzata mentre println lo è quinid avessi usato println non avrei
+                    // scrambling dell'output
+                    System.out.printf("%s added %d\n", getName(),n);
+
                 } //todo quando esco da scope tramite synchronized mando UNLOCK
             }
         }
@@ -31,25 +38,41 @@ public class ConsumerProducer {
         @Override
         public void run(){
             while(true){
-                if(buff.isEmpty()) {
+                synchronized (buff) {
+                    if (buff.isEmpty()) {
 
-                    try {
-                        buff.wait();    //todo: wait non è POST-BUFFERIZZATA -> se ho ricevuto notify prima di andare in wait
-                                        // vengono "dimenticate" e non succede nulla, sennò non andrebbe mai in wait()
-                    } catch (InterruptedException e) {
-                        //todo: necessario usare try/catch perchè altrimenti la wait potrebbe mandare il thread in deadlock
-                        throw new RuntimeException(e);
+                        try {
+                            buff.wait();    //todo: wait non è POST-BUFFERIZZATA -> se ho ricevuto notify prima di andare in wait
+                            // vengono "dimenticate" e non succede nulla, sennò non andrebbe mai in wait()
+                        } catch (InterruptedException e) {
+                            //todo: necessario usare try/catch perchè altrimenti la wait potrebbe mandare il thread in deadlock
+                            throw new RuntimeException(e);
+                        }
+
+                        //todo: lanciando un eccezione dentro alla critical section ipotetitcamente non esco MAI dalla
+                        // critical section quindi creerei un deadlock, però avendo la struttura synchronized che è uno
+                        // SCOPE, lanciare un'eccezione "equivale" ad un'uscita da scope e rimette automaticamente il
+                        // mutex in unlock
+
                     }
 
-
+                    System.out.println(buff.remove(0));
                 }
-                System.out.println(buff.remove(0));
             }
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    //todo: mutex utilizzato dentro a funzione ricorsiva dovrebbe essere deadlock ma invece funzione perchè essendo
+    // utilizzato sempre dallo stesso thread, non fa lock/unlock, fa solo un incremento di un counter e alla fine delle
+    // chiamate ricorsive devo aver lockato tante volte quante ho unlockato quindi basta che il counter a fine
+    // ricorsione sia a 0. quando inizia prima chiamata della funzione ricorsiva. il thread che la chiama viene posto a Owner
+     void f(){
+        synchronized (buff){
+            f();
+        }
+     }
 
+    public static void main(String[] args) throws InterruptedException {
         Producer p = new Producer();
         Consumer c = new Consumer();
         p.start();
@@ -80,3 +103,6 @@ public class ConsumerProducer {
     }
 
 }
+
+//todo: mettendo in questo caso synchronised(this) sia su consumer che producer non funziona perchè this è di due tipi
+// diversi nelle due sez. critiche.
