@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-class animal{
+class animal {
 protected:
     int _weight;
     double _speed;
@@ -12,10 +12,11 @@ public:
 
     //todo: in  C++ non assegno campi, li costruisco.
     //todo: costruttore: nome campo che vogliamo inizializzare e tra parentesi il valore che vogliamo assegnargli
-    animal(int w, double sp){ //: _weight(w), _speed(sp){
+    animal(int w, double sp) : _weight(w), _speed(sp) {}
+    /*{
         _weight=w;
         _speed=sp;
-    }
+    }*/
     //todo: il costruttore scritto così, non chiama copy constructor dei campi ma fa un assegnamente.
     // Senza initializer list chiama comunque chiama default constructor dei vari campi e poi chiama operatori di assegnamento.
     // quindi invece di utilizzare direttamente copy constructor, usa default constructor mette i campi a 0 e poi cambia
@@ -36,7 +37,7 @@ public:
 
     //todo: aggiungendo VIRTUAL alla firma del metodo PERMETTO OVERRIDE
     virtual void eat(const animal& a) { //todo: parametro meglio sempre provare prima a metterlo const & poi al massimo si toglie il const
-        _weight += a._weight;
+        weight() += a._weight;
     }
 
     //todo: avessi aggiunto al metodo il const dopo le tonde dei parametri, quel const si riferisce a this quindi mi
@@ -60,8 +61,8 @@ public:
 
     //todo: ogni volta che metto virtual sulla firma permetto alle mie sottoclasse di overridare. non avendolo messo
     // qui significa che sto impedendo alle mie future sottoclassi di ereditare.
-    void eat(const animal& a) override{
-        _weight += a.get_weight() / 2; //todo: anche se è protected non posso richiamare a._weight perchè ???
+    virtual void eat(const animal& a) override{
+        weight() += a.get_weight() / 2; //todo: anche se è protected non posso richiamare a._weight perchè ???
     }
 };
 
@@ -86,7 +87,7 @@ int main() {
     //animal a6 = fido; //todo: facendo  così sembra che io stia utilizzando assegnamento ed invece sto utilizzando copy constructor
     animal a6(fido);
     //todo: per utilizzare dynamic dispatching in C++ devo per forza ricorrere a pointer o reference.
-    animal & a7 = fido;
+    //animal & a7 = fido;
     return 0;
 }
 
