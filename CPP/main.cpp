@@ -1,4 +1,5 @@
 #include <iostream>
+#include "matrix.cpp"
 using namespace std;
 
 class animal {
@@ -81,13 +82,18 @@ int main() {
     animal* a4 = new animal(a2);
     animal a5;
     a2.eat(*a1);
-    free(a1);
-    free(a4);
+    //delete(a1);
+    //delete(a4);
     dog fido(60,43.5,false);
     //animal a6 = fido; //todo: facendo  così sembra che io stia utilizzando assegnamento ed invece sto utilizzando copy constructor
     animal a6(fido);
     //todo: per utilizzare dynamic dispatching in C++ devo per forza ricorrere a pointer o reference.
     //animal & a7 = fido;
+    animal pippo(fido);
+    pippo.eat(a2);
+
+    matrix<int> a(10);
+    a(1,1)=2;
     return 0;
 }
 
