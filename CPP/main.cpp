@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #include "matrix.cpp"
 using namespace std;
 
@@ -94,6 +95,15 @@ int main() {
 
     matrix<int> a(10);
     a(1,1)=2;
+
+    matrix<int> m(40,50);
+    a=m; //todo: utilizza operatore di assegnamento OMOGENEO
+    a.operator=(m);
+
+    list<int> l1{1,2,3};
+    f(l1);
+    vector<int> v{1,2,3};
+    f(v);
     return 0;
 }
 
