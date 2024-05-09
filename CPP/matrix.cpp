@@ -2,10 +2,17 @@
 // Created by Alessandro on 02/05/24.
 //
 
+#include <ostream>
 #include <vector>
 using namespace std;
-
+//todo: il template system di C++ è più "potente" dei generics di Java. è possibile templetizzare  qualsiasi tipo di
+// entità. possono templetizzare anche typedef ma per esempio NON sono templetizzabili namespace e campi di una classe.
 //todo: in C++ prima scriviamo template <class T> per definire il generic T e poi creo
+
+//todo:operatore può essere overloadato dentro a classe con un parametro solo perchè il primo parametro sarà this
+// sottointeso. se invece voglio fare overloading globale, lo dichiaro fuori da qualsiasi classe con due parametri,
+// quello che andrà a sinistrà del + e quello che andrà a destra.
+
 template <class T>
 class matrix{
 private:
@@ -22,11 +29,38 @@ public:
     // programmatore
     matrix() : v(){}
     matrix(const matrix<T>& m) : v(m.v) {}
+
+    //todo: CONVERSION CONSTRUCTOR. non riconosciuto dal compilatore come default/copy constructor
+    template <class S>
+    matrix(const matrix<S>& m): cols(m.cols), v(m.get_rows()*m.get_cols()) {
+        for (int i = 0; i < v.size(); ++i) {
+            v[i]=T(m.v[i]);
+            //todo:CONVERSIONE->chiamo il costruttore di tipo T e d in questo caso visto che m.v[i] è di tipo S,
+            // quindi chiedo che venga costruito un oggetto di tipo T a partire da uno di tipo S. diverso
+            // dal CAST perchè cast forza un tipo su variabile di altro tipo. Conversione invece prendere
+            // il binario di un oggetto S e lo interpreta come T.
+
+            //todo: vero e proprio cast
+            v[i]=*((T*)&m.v[i]);
+        }
+    }
+    //todo: commentando il copy constructor il conversion constructor potrebbe anche fungere da copy constructor perchè
+    // quando lo utilizzo S viene impostato = T.
+
+
     //matrix(size_t rows, size_t _cols): cols(_cols), v(rows*cols) {}
     matrix(size_t rows, size_t _cols, const T& x = T()): cols(_cols), v(rows * cols,x){}
     explicit matrix(size_t dim): matrix(dim, dim) {}
     //todo: non serve distruttore perchè ho solo vector e distruttore di v viene chiamato automaticamente.
 
+    //todo: CASTING OPERATOR
+    operator vector<T>()const{
+        return v;
+    }
+
+    operator int() const{ //todo: non ha senso ma è possibile.
+        return 11;
+    }
     matrix<T>& operator=(const matrix<T>& m){
         cols=m.cols;
         v=m.v;
@@ -47,14 +81,39 @@ public:
     }
     size_t get_cols() const{return cols;}
     size_t get_rows() const{return v.size()/cols;}
+
+
+
 };
 
+//todo: ostream viene fatto globale non interno alla classe, perchè il primo parametro deve essere ostream, se io l'avessi
+// messo dentro ad una classe avrei potuto al massimo metterlo dentro la classe ostream (non posso) quindi lo metto
+// esterno.
+template<class C>
+ostream& operator<<(ostream& os,const C& m){
+
+    //todo: typename si prefigge al nome di un tipo quando utilizza :: per problemi di parsing. per aiutare a far capire
+    // al compilatore che quello è un nome e non altre cose.
+    for (typename C::iterator it=m.v.begin(); it != m.v.end(); ++it) {
+        typename C::value_type x=*it;
+        os << *it <<" ";
+    }
+    return os;
+}
 
 //todo:template system è un sistema di macroexpansion. Quando compila controlla solo la sintassi e sospende "giudizio"
 // fino al primo utilizzo.
 template <class C>
 void f(C& v){
     v.push_back(7);
+}
+
+//todo: il template system al momento dell'utilizzo del template ricompila utilizzando il tipo utilizzato e solo in quel
+// momento fa un typecheck ecc ecc
+
+
+int main(){
+
 }
 
 //todo: INLINING->invece della chiamata a funzione, sposti il suo corpo dove c'è la chiamata cosi non c'è bisogno della
@@ -72,3 +131,13 @@ void f(C& v){
 
 
 //todo: std (standard library) ed stl (standard template library) sono due cose diverse e separate.
+
+//todo: Cast in JAVA: quanto tipo è built-in fa conversione mentre quando deve fare cast di reference type posso solo
+// down-castare ovvero l'oggetto castato può essere solo un sottotipo di quello di "partenza"
+
+
+//todo: in C++ posso fare veri e propri cast solamente attraverso i puntatori T*, altrimenti passando T prende sempre il
+// costruttore di T.
+
+//todo: template system guarda inizialmente solo la sintassi poi sospende il giudizio poi riprende a "giudicare" la
+// correttezza di quello che ho scritto solo al momento dell'utilizzo.
