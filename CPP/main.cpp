@@ -72,7 +72,7 @@ public:
 /*int get_weight(const animal& a){}*/ //todo: se io passo come parametro CONST -> posso invocare su di esso solo metodi o
                                       // campi const
 
-int main() {
+/*int main2() {
 
     //todo: posso costruire nuovi oggetti in due maniere tramite new quindi type* a = new type()
     animal* a1 = new animal(24,12.5);  //todo animal con new deve essere pointer perchè null ritorna pointer. IN HEAP
@@ -105,7 +105,7 @@ int main() {
     vector<int> v{1,2,3};
     f(v);
     return 0;
-}
+}*/
 
 //todo: in C++ la sintassi di dichiarazione int x; ha la stessa sintassi di dichiarazione di C ma ha semantica diversa.
 // in C++ anche quando dichiaro e basta COSTRUISCO -> int x; viene creato tramite costruttore di default ( invoca un

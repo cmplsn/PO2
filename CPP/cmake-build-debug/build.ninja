@@ -61,6 +61,12 @@ build CMakeFiles/CPP.dir/matrix.cpp.o: CXX_COMPILER__CPP_unscanned_Debug /Users/
   OBJECT_DIR = CMakeFiles/CPP.dir
   OBJECT_FILE_DIR = CMakeFiles/CPP.dir
 
+build CMakeFiles/CPP.dir/smart_ptr.cpp.o: CXX_COMPILER__CPP_unscanned_Debug /Users/alessandrocampagnaro/Desktop/ANNO$ 3/PO2/CPP/smart_ptr.cpp || cmake_object_order_depends_target_CPP
+  DEP_FILE = CMakeFiles/CPP.dir/smart_ptr.cpp.o.d
+  FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/CPP.dir
+  OBJECT_FILE_DIR = CMakeFiles/CPP.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target CPP
@@ -69,7 +75,7 @@ build CMakeFiles/CPP.dir/matrix.cpp.o: CXX_COMPILER__CPP_unscanned_Debug /Users/
 #############################################
 # Link the executable CPP
 
-build CPP: CXX_EXECUTABLE_LINKER__CPP_Debug CMakeFiles/CPP.dir/main.cpp.o CMakeFiles/CPP.dir/matrix.cpp.o
+build CPP: CXX_EXECUTABLE_LINKER__CPP_Debug CMakeFiles/CPP.dir/main.cpp.o CMakeFiles/CPP.dir/matrix.cpp.o CMakeFiles/CPP.dir/smart_ptr.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk
   OBJECT_DIR = CMakeFiles/CPP.dir
   POST_BUILD = :

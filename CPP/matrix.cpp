@@ -1,7 +1,7 @@
 //
 // Created by Alessandro on 02/05/24.
 //
-
+#include <iostream>
 #include <ostream>
 #include <vector>
 using namespace std;
@@ -53,8 +53,49 @@ public:
     explicit matrix(size_t dim): matrix(dim, dim) {}
     //todo: non serve distruttore perchè ho solo vector e distruttore di v viene chiamato automaticamente.
 
+    typedef T value_type; //creo aliasing di T e gli do come nome secondario valuetype
+    //todo: creo il typedef value_type proprio perchè dall'esterno non posso richiamare matrix::T ma posso fare
+    // matrix::value_type. Utilizzo value_type per tutti container lineari (in STL), invece STL per cose tipo Dizionari,
+    // mappe ecc dove posso avere fino a due template avra come member-types value_type e key_type.
+
+    //qualsiasi tipo di container deve avere sia begin() che end(), che hanno come tipo di ritorno iterator.
+
+    typedef typename vector<T>::iterator iterator;
+
+    //todo: definisco anche const_iterator perchè voglio poter avere un iterator solo per leggere (const_iterator) e
+    // uno per leggere e scrivere.
+    typedef typename vector<T>::const_iterator const_iterator;
+
+    //todo:usando vettore con tipo T*
+    //typedef T* iterator;
+
+    iterator begin(){
+        return v.begin();
+
+        //todo:usando vettore con tipo T*
+        //return v;
+    }
+    iterator end(){
+        return v.end();
+
+       // todo:facendo con vettore fatto T*
+       // return v +cols+rows;
+    }
+    //per utilizzare dalla class matrix iteatore "nativo" da vector visto che la strutt. dati che uso in matrix è vector.
+
+    const_iterator begin() const{
+        return v.begin();
+    }
+
+    const_iterator end() const{
+        return v.end();
+    }
+
+    //todo: da C++14 ->
+    using valuetype2 =T;
+
     //todo: CASTING OPERATOR
-    operator vector<T>()const{
+    operator vector<T>&()const{
         return v;
     }
 
@@ -112,8 +153,14 @@ void f(C& v){
 // momento fa un typecheck ecc ecc
 
 
-int main(){
+int main3(){
+    matrix<int> m(20,30);
+    for(matrix<int>::iterator it=m.begin();it!=m.end();++it){
+        matrix<int>::value_type x=*it;
+        cout<<x<<endl;
 
+    }
+return 0;
 }
 
 //todo: INLINING->invece della chiamata a funzione, sposti il suo corpo dove c'è la chiamata cosi non c'è bisogno della
@@ -141,3 +188,7 @@ int main(){
 
 //todo: template system guarda inizialmente solo la sintassi poi sospende il giudizio poi riprende a "giudicare" la
 // correttezza di quello che ho scritto solo al momento dell'utilizzo.
+
+//todo: end() di container ritorna past-the-end.
+
+//todo: SMART POINTER:

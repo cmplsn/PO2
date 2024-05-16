@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(CPP main.cpp
         matrix.cpp
+        smart_ptr.cpp
 )
