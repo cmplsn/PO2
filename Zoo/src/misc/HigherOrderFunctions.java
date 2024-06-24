@@ -27,14 +27,14 @@ public class HigherOrderFunctions {
 
     interface PippoFunction<A,B>{
         B ciccio(A x);
-
     }
 
     public static <A, B> List<B> map(Iterable<A> c, PippoFunction<A, B> f) {
         List<B> r = new ArrayList<>();
         for (A x : c) {
-            B b = f.ciccio(x);
-            r.add(b);
+            /*B b = f.ciccio(x);
+            r.add(b);*/
+            r.add(f.ciccio(x));
         }
         return r;
     }

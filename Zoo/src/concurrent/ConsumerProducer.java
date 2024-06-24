@@ -43,7 +43,7 @@ public class ConsumerProducer {
 
                         try {
                             buff.wait();    //todo: wait non è POST-BUFFERIZZATA -> se ho ricevuto notify prima di andare in wait
-                            // vengono "dimenticate" e non succede nulla, sennò non andrebbe mai in wait()
+                            //todo: vengono "dimenticate" e non succede nulla, sennò non andrebbe mai in wait()
                         } catch (InterruptedException e) {
                             //todo: necessario usare try/catch perchè altrimenti la wait potrebbe mandare il thread in deadlock
                             throw new RuntimeException(e);

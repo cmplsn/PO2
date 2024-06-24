@@ -1,7 +1,22 @@
 #include <iostream>
 #include <list>
-#include "matrix.cpp"
+//#include "matrix.cpp"
 using namespace std;
+
+
+
+template<class C>
+typename C::value_type sum(C x){
+    typename C::value_type res(0);
+    for(typename C::iterator it =x.begin();it!=x.end();++it ){
+        res+=*it;
+    }
+    return res;
+}
+
+/**
+ * Vincoli su C
+ * */
 
 class animal {
 protected:
@@ -59,20 +74,29 @@ class dog : public animal{
 private:
     bool has_pedigree;
 public:
-    dog(int w, double sp, bool ped): animal(w,sp), has_pedigree(ped) {}
+    dog(int w, double sp, bool ped): animal(w,sp), has_pedigree(ped) {};
+    dog(const animal& a, bool ped): animal(a),has_pedigree(ped){};
 
     //todo: ogni volta che metto virtual sulla firma permetto alle mie sottoclasse di overridare. non avendolo messo
     // qui significa che sto impedendo alle mie future sottoclassi di ereditare.
     virtual void eat(const animal& a) override{
         weight() += a.get_weight() / 2; //todo: anche se è protected non posso richiamare a._weight perchè ???
     }
+    void bark(){
+        cout<<"BAU"<<endl;
+    }
 };
+
+/*int main(){
+    vector<int> x{1,2,3,4};
+    cout<<sum(x)<<endl;
+}*/
 
 
 /*int get_weight(const animal& a){}*/ //todo: se io passo come parametro CONST -> posso invocare su di esso solo metodi o
                                       // campi const
 
-/*int main2() {
+int main() {
 
     //todo: posso costruire nuovi oggetti in due maniere tramite new quindi type* a = new type()
     animal* a1 = new animal(24,12.5);  //todo animal con new deve essere pointer perchè null ritorna pointer. IN HEAP
@@ -80,7 +104,9 @@ public:
     animal a2(24,12.5);
 
     animal a3= animal(a2); //todo: risoluzione dell'overloading context-independent. Costruttore di default
-    animal* a4 = new animal(a2);
+    animal* a4 = new dog(a2,true);
+
+
     animal a5;
     a2.eat(*a1);
     //delete(a1);
@@ -93,7 +119,7 @@ public:
     animal pippo(fido);
     pippo.eat(a2);
 
-    matrix<int> a(10);
+    /*matrix<int> a(10);
     a(1,1)=2;
 
     matrix<int> m(40,50);
@@ -103,9 +129,9 @@ public:
     list<int> l1{1,2,3};
     f(l1);
     vector<int> v{1,2,3};
-    f(v);
+    f(v);*/
     return 0;
-}*/
+}
 
 //todo: in C++ la sintassi di dichiarazione int x; ha la stessa sintassi di dichiarazione di C ma ha semantica diversa.
 // in C++ anche quando dichiaro e basta COSTRUISCO -> int x; viene creato tramite costruttore di default ( invoca un

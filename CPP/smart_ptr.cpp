@@ -44,8 +44,8 @@ public:
 
 };
 
-int main(){
+/*int main(){
     int* p;
     smart_ptr<int> sp(p);
     return 0;
-}
+}*/

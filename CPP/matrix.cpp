@@ -16,13 +16,13 @@ using namespace std;
 template <class T>
 class matrix{
 private:
-    //todo: utilizzare vector al posto di un array C-like anche se non utilizzo le sue proprietà di dimensione diniamica
+    //todo: utilizzare vector al posto di un array C-like anche se non utilizzo le sue proprietà di dimensione dinamica
     // ecc ecc pushback ecc, ho comunque il vantaggio di costruzione e distruzione automatica senza dovermene preoccupare.
     size_t cols;
     vector<T> v;
 public:
 
-    //todo: in C++ i costruttori UNARI sono OPERATORI DI CONVERSIONE. Se io ho un size_t od un qualsiasit tipo
+    //todo: in C++ i costruttori UNARI sono OPERATORI DI CONVERSIONE. Se io ho un size_t od un qualsiasi tipo
     // convertibile a size_t. Mettiamo che chiamo una funzione che ha come parametro una matrix. se io chiamo la
     // funzione f(7) converte automaticamente ???. Risolvo la situazione aggiungendo EXPLICIT prima della firma della
     // funzione permettendo l'utilizzo di quello specifico costruttore solo ESPLICITAMENTE quindi da parte del
@@ -102,7 +102,7 @@ public:
     operator int() const{ //todo: non ha senso ma è possibile.
         return 11;
     }
-    matrix<T>& operator=(const matrix<T>& m){
+    matrix<T>& operator=(const matrix<T>& m) {
         cols=m.cols;
         v=m.v;
         return *this;
@@ -153,7 +153,7 @@ void f(C& v){
 // momento fa un typecheck ecc ecc
 
 
-int main3(){
+/*int main3(){
     matrix<int> m(20,30);
     for(matrix<int>::iterator it=m.begin();it!=m.end();++it){
         matrix<int>::value_type x=*it;
@@ -161,7 +161,7 @@ int main3(){
 
     }
 return 0;
-}
+}*/
 
 //todo: INLINING->invece della chiamata a funzione, sposti il suo corpo dove c'è la chiamata cosi non c'è bisogno della
 // jump alla funzione

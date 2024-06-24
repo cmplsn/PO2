@@ -1,5 +1,9 @@
 package Zoo;
 
+import java.lang.invoke.TypeDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 public class Zoo {
     public static class Animal{
         protected int weight;
@@ -36,10 +40,18 @@ public class Zoo {
         }
     }
     public static void main(String[] args) {
+
         Dog f = new Dog(30,false);
         Dog g = f; //stesso oggetto di f, due alias diversi
         Animal pluto = new Dog(40,true);
         pluto.eat(f);
+        Class<?> d =g.getClass();
+        try {
+            Field x = d.getDeclaredField("pedigree");
+            x.set(g,true);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
         
         //todo: Dynamic Dispatching nonostante tipo Animal ho istanziato un oggetto di tipo Dog quindi accedo
         // al metodo tramite override

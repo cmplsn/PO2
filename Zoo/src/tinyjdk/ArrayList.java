@@ -123,7 +123,7 @@ public class ArrayList<T> implements List<T>{
             public T next() {
                 return get(pos++);
             }
-        }; //questo return è statemente che inizia a riga 107 e finisce a 117
+        }; //questo return è statement che inizia a riga 115 e finisce a 126
     }
     //todo: tramite anonymous class (in realtà non Class ma Object possiamo creare implementazione di
     // un'interfaccia "al volo". Sembra invocazione di costruttore ma invece sto chiamando new su interfaccia quindi
