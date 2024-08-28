@@ -10,14 +10,19 @@
 template<class T>
 class smart_ptr{
 private:
+
     T* pt;
     const T* orig;
     unsigned int* count;
+
 public:
-    explicit smart_ptr(T* _pt): pt(_pt),orig(_pt), count(new unsigned int(1)) {}
+
+    explicit smart_ptr(T* _pt): pt(_pt), orig(_pt), count(new unsigned int(1)) {}
+
     smart_ptr(const smart_ptr<T>& sp):pt(sp.pt),count(sp.count) {
         ++ *count;
     }
+
     ~smart_ptr(){
         if(-- *count==0) delete pt; delete count;
 
@@ -36,6 +41,7 @@ public:
         return *this;
 
     }
+
     smart_ptr<T> operator++(int){
         smart_ptr<T> r(*this);
         ++pt;

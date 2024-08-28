@@ -20,6 +20,7 @@ private:
     // ecc ecc pushback ecc, ho comunque il vantaggio di costruzione e distruzione automatica senza dovermene preoccupare.
     size_t cols;
     vector<T> v;
+
 public:
 
     //todo: in C++ i costruttori UNARI sono OPERATORI DI CONVERSIONE. Se io ho un size_t od un qualsiasi tipo
@@ -101,6 +102,9 @@ public:
 
     operator int() const{ //todo: non ha senso ma è possibile.
         return 11;
+    }
+    matrix<T>& operator*(){
+        return this;
     }
     matrix<T>& operator=(const matrix<T>& m) {
         cols=m.cols;

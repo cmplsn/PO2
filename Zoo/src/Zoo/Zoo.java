@@ -1,5 +1,8 @@
 package Zoo;
 
+import annotations.myAnnotation;
+import jdk.dynalink.NoSuchDynamicMethodException;
+
 import java.lang.invoke.TypeDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,6 +17,8 @@ public class Zoo {
         public void eat(Animal a){
             this.weight += a.weight;
         }
+
+        @myAnnotation
         public int getWeight(){
             return this.weight;
         }
@@ -41,7 +46,7 @@ public class Zoo {
     }
     public static void main(String[] args) {
 
-        Dog f = new Dog(30,false);
+        /*Dog f = new Dog(30,false);
         Dog g = f; //stesso oggetto di f, due alias diversi
         Animal pluto = new Dog(40,true);
         pluto.eat(f);
@@ -51,7 +56,7 @@ public class Zoo {
             x.set(g,true);
         }catch(Exception e){
             System.out.println(e.getMessage());
-        }
+        }*/
         
         //todo: Dynamic Dispatching nonostante tipo Animal ho istanziato un oggetto di tipo Dog quindi accedo
         // al metodo tramite override
@@ -61,6 +66,19 @@ public class Zoo {
         Dog fido= new Dog(50,false);
         Animal gigi = new Dog(30, true);
         gigi.eat(fido); //chiama la eat di Dog per Dynamic Dispatching
+        Class<?> dogClass =fido.getClass();
+        Class<?> dogSuperClass=dogClass.getSuperclass();
+        try {
+            for (Method f:dogClass.getDeclaredMethods()){
+                System.out.println(f.getName());
+            }
+        }catch (NoSuchDynamicMethodException e){
+            System.out.println(e.getMessage());
+        }finally{
+            System.out.println("bye bitch");
+        }
+
+
     }
 }
 
